@@ -1,10 +1,8 @@
 const { default: makeWASocket, useSingleFileAuthState } = require('@whiskeysockets/baileys');
-const { Boom } = require('@hapi/boom');
 const fs = require('fs');
 const axios = require('axios');
 const yts = require('ytsr');
 const ytdl = require('ytdl-core');
-const tikly = require('tiklydown');
 
 const { state, saveState } = useSingleFileAuthState('./session.json');
 
@@ -22,7 +20,6 @@ async function startSock() {
 
         const from = msg.key.remoteJid;
         const body = msg.message.conversation || msg.message.extendedTextMessage?.text;
-
         if (!body) return;
 
         const reply = (text) => sock.sendMessage(from, { text }, { quoted: msg });
@@ -60,24 +57,6 @@ async function startSock() {
                 mimetype: 'audio/mp4',
                 ptt: false
             }, { quoted: msg });
-        }
-
-        if (body.startsWith('.tiktok')) {
-            const url = body.split(' ')[1];
-            if (!url) return reply('🔗 Provide a TikTok link.');
-            try {
-                const data = await tikly(url);
-                await sock.sendMessage(from, {
-                    video: { url: data.video.noWatermark },
-                    caption: data.title
-                }, { quoted: msg });
-            } catch (e) {
-                reply('❌ Failed to download TikTok.');
-            }
-        }
-
-        if (body.startsWith('.tiktoksearch')) {
-            return reply('❌ TikTok search not supported in demo.');
         }
     });
 }
