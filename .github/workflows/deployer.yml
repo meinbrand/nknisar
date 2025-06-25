@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       SESSION_DATA:
-        description: 'Paste your session ID here (base64 JSON)'
+        description: 'Paste your WhatsApp session.json as base64 here'
         required: true
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       with:
         node-version: 18
 
-    - name: Install deps
+    - name: Install dependencies
       run: npm install
 
     - name: Write session.json
