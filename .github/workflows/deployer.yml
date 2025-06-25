@@ -1,0 +1,30 @@
+name: WhatsApp Bot Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      SESSION_DATA:
+        description: 'Paste your session ID here (base64 JSON)'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install deps
+      run: npm install
+
+    - name: Write session.json
+      run: echo "${{ github.event.inputs.SESSION_DATA }}" | base64 -d > session.json
+
+    - name: Start bot
+      run: node bot.js
