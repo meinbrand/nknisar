@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       SESSION_DATA:
-        description: 'Paste your WhatsApp session.json as base64 here'
+        description: 'mAQ1WL6S#RZWa5Crxv_rXmN-P94qV1MRZ53FK6EhcP38KXjTHqZM'
         required: true
 
 jobs:
